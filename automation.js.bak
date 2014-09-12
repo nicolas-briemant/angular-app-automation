@@ -1,0 +1,112 @@
+'use strict';
+
+var _ = require('underscore')
+  , del = require('del')
+  , run = require('run-sequence')
+  , gutil = require('gulp-util')
+  , browserify = require('gulp-browserify')
+  , sourcemaps = require('gulp-sourcemaps')
+  , concat = require('gulp-concat')
+  , rename = require('gulp-rename')
+  , connect = require('gulp-connect')
+  , watch = require('gulp-watch')
+  , karma = require('karma').server;
+
+module.exports = function(gulp, options) {
+  //- Options
+  options = options || {};
+
+  var jsSrc = './src/**/*.js';
+  if (!_.isUndefined(options.jsSrc)) jsSrc = options.jsSrc;
+
+  var cssSrc = './src/**/*.less';
+  if (!_.isUndefined(options.cssSrc)) cssSrc = options.cssSrc;
+
+  var htmlSrc = './src/**/*.html';
+  if (!_.isUndefined(options.htmlSrc)) htmlSrc = options.htmlSrc;
+
+  var testSrc = './test/**/*.js';
+  if (!_.isUndefined(options.testSrc)) testSrc = options.testSrc;
+
+  var jsApp = './src/app.js';
+  if (!_.isUndefined(options.jsApp)) jsApp = options.jsApp;
+
+  var testApp = './test/app.js';
+  if (!_.isUndefined(options.testApp)) testApp = options.testApp;
+
+  var name = 'app';
+  if (!_.isUndefined(options.pkg) && !_.isUndefined(options.pkg.name)) name = options.pkg.name;
+  if (!_.isUndefined(options.name)) name = options.name;
+
+  var buildDir = './build';
+  if (!_.isUndefined(options.buildDir)) buildDir = options.buildDir;
+
+  var distDir = './dist';
+  if (!_.isUndefined(options.distDir)) distDir = options.distDir;
+
+  var reportDir = './report';
+  if (!_.isUndefined(options.reportDir)) reportDir = options.reportDir;
+
+  // var beautifyCfg = _.extend(require('./beautify.cfg'), options.beautifyCfg)
+  //   , jshintCfg = _.extend(require('./jshint.cfg'), options.jshintCfg)
+  //   , recessCfg = _.extend(require('./recess.cfg'), options.recessCfg)
+  var connectCfg = _.extend(require('./connect.cfg'), options.connectCfg)
+    , karmaCfg = _.extend(require('./karma.cfg'), options.karmaCfg);
+
+  //- External tasks
+  gulp.task('default', ['dist']);
+  gulp.task('dev', function(cb) {
+    run(, cb);
+  });
+  gulp.task('tdd', ['karma']);
+
+  //- Dev tasks
+  gulp.task('clean', ['clean:reports', 'clean:dist', 'clean:build']);
+  gulp.task('clean:reports', function(cb) { del([reportsDir], cb); });
+  gulp.task('clean:dist', function(cb) { del([distDir], cb); });
+  gulp.task('clean:build', function(cb) { del([buildDir], cb); });
+  gulp.task('clean:js', function(cb) { del([buildDir + '/**/*.js{,map}'], cb); });
+
+  gulp.task('build:views', function() {
+    return gulp.src(htmlSrc).pipe(gulp.dest(buildDir));
+  });
+
+  gulp.task('build', ['build:js', 'build:views']);
+
+  gulp.task('build:js', ['concat:js']);
+  gulp.task('concat:js', ['browserify:js'], function() {
+    return gulp.src(buildDir + '/' + name + '.js')
+      .pipe(sourcemaps.init())
+      .pipe(concat(name + '.js'))
+      .pipe(sourcemaps.write())
+      .pipe(gulp.dest(buildDir));
+  });
+  gulp.task('browserify:js', ['clean:js'], function() {
+    return gulp.src([jsApp, testApp])
+      .pipe(browserify({ debug: true, standalone: name }))
+      .pipe(rename(name + '.js'))
+      .pipe(gulp.dest(buildDir))
+  });
+
+  gulp.task('connect', ['build'], function() {
+    connectCfg.root = buildDir;
+    connect.server(connectCfg);
+  });
+
+  gulp.task('watch:build', ['connect'], function() {
+    watch(connectCfg.root + '/**/*').pipe(connect.reload());
+  });
+
+  gulp.task('watch:src', ['watch:build'], function() {
+    gulp.watch(jsSrc, ['build:js']);
+    gulp.watch(htmlSrc, ['build:views']);
+  });
+
+  gulp.task('karma', ['watch:src'], function() {
+    karmaCfg.singleRun = false;
+    karmaCfg.autoWatch = true;
+    karmaCfg.files = [buildDir + '/*.js'];
+
+    karma.start(karmaCfg);
+  });
+};
