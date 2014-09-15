@@ -3,48 +3,65 @@ var _ = require('underscore');
 module.exports = function format(options) {
   options = options || {};
 
-  var jsSrc = './src/**/*.js';
-  if (!_.isUndefined(options.jsSrc)) jsSrc = options.jsSrc;
+  var formattedOptions = {
+    name: 'app'
+  , js: {
+      src: './src/**/*.js'
+    , app: './src/app.js'
+    , lint: require('./jshint.default.cfg')
+    }
+  , css: {
+      src: './src/**/*.less{,.css}'
+    , app: './src/app.less'
+    , lint: require('./recess.default.cfg')
+    }
+  , html: {
+      src: './src/**/*.html' 
+    }
+  , test: {
+      src: './test/**/*.js'
+    , app: './test/app.js'
+    }
+  , build: {
+      dest: './build'
+    }
+  , dist: {
+      dest: './dist'
+    }
+  , report: {
+      dest: './report'
+    }
+  };
 
-  var cssSrc = './src/**/*.less';
-  if (!_.isUndefined(options.cssSrc)) cssSrc = options.cssSrc;
+  //- GENERAL
+  if (!_.isUndefined(options.pkg) && !_.isUndefined(options.pkg.name)) formattedOptions.name = options.pkg.name;
+  if (!_.isUndefined(options.name)) name = formattedOptions.options.name;
 
-  var htmlSrc = './src/**/*.html';
-  if (!_.isUndefined(options.htmlSrc)) htmlSrc = options.htmlSrc;
+  //- JS
+  if (!_.isUndefined(options.jsSrc)) formattedOptions.js.src = options.jsSrc;
+  if (!_.isUndefined(options.jsApp)) formattedOptions.js.app = options.jsApp;
+  if (!_.isUndefined(options.jsLint)) formattedOptions.js.lint = _.extend(formattedOptions.js.lint, options.jsLint);
 
-  var testSrc = './test/**/*.js';
-  if (!_.isUndefined(options.testSrc)) testSrc = options.testSrc;
+  //- LESS & CSS
+  if (!_.isUndefined(options.cssSrc)) formattedOptions.css.src = options.cssSrc;
+  if (!_.isUndefined(options.cssApp)) formattedOptions.css.app = options.cssApp;
+  if (!_.isUndefined(options.cssLint)) formattedOptions.css.lint = _.extend(formattedOptions.css.lint, options.cssLint);
 
-  var jsApp = './src/app.js';
-  if (!_.isUndefined(options.jsApp)) jsApp = options.jsApp;
+  //- HTML
+  if (!_.isUndefined(options.htmlSrc)) formattedOptions.html.src = options.htmlSrc;
 
-  var cssApp = './src/app.less';
-  if (!_.isUndefined(options.cssApp)) cssApp = options.cssApp;
+  //- TEST
+  if (!_.isUndefined(options.testSrc)) formattedOptions.test.src = options.testSrc;
+  if (!_.isUndefined(options.testApp)) formattedOptions.test.app = options.testApp;
 
-  var testApp = './test/app.js';
-  if (!_.isUndefined(options.testApp)) testApp = options.testApp;
+  //- BUILD
+  if (!_.isUndefined(options.buildDest)) formattedOptions.build.dest = options.buildDir;
 
-  var name = 'app';
-  if (!_.isUndefined(options.pkg) && !_.isUndefined(options.pkg.name)) name = options.pkg.name;
-  if (!_.isUndefined(options.name)) name = options.name;
+  //- DIST
+  if (!_.isUndefined(options.distDest)) formattedOptions.dist.dest = options.distDir;
 
-  var buildDir = './build';
-  if (!_.isUndefined(options.buildDir)) buildDir = options.buildDir;
-
-  var distDir = './dist';
-  if (!_.isUndefined(options.distDir)) distDir = options.distDir;
-
-  var reportDir = './report';
-  if (!_.isUndefined(options.reportDir)) reportDir = options.reportDir;
-
-  var jshintCfg = _.extend(require('./jshint.cfg'), options.jshintCfg)
-    , recessCfg = _.extend(require('./recess.cfg'), options.recessCfg)
-    , karmaCfg = _.extend(require('./karma.cfg'), options.karmaCfg);
-
-  var formattedOptions = {};
-  formattedOptions.js = {app: jsApp, dest: buildDir, name: name};
-  formattedOptions.css = {app: cssApp, dest: buildDir, name: name};
-  formattedOptions.html = {src: htmlSrc, dest: buildDir, name: name};
+  //- REPORTS
+  if (!_.isUndefined(options.reportDest)) formattedOptions.report.dest = options.reportDir;
 
   return formattedOptions;
 };
