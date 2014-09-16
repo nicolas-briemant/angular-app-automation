@@ -3,12 +3,6 @@
 var _ = require('underscore')
   , async = require('async')
   , util = require('gulp-util')
-  // , sourcemaps = require('gulp-sourcemaps')
-  // , concat = require('gulp-concat')
-  // , rename = require('gulp-rename')
-  // , connect = require('gulp-connect')
-  // , watch = require('gulp-watch')
-  // , karma = require('karma').server
   , format = require('./format')
   , clean = require('./clean')
   , build = require('./build')
@@ -33,8 +27,15 @@ module.exports = function(gulp, options) {
     }, function(err, r) {
       if (err) return error(err);
 
-      gulp.watch(options.css.src, build.css.bind(null, {app: options.css.app, dest: options.build.dest, name: options.name}, null));
-      gulp.watch(options.html.src, build.html.bind(null, {src: options.html.src, dest: options.build.dest}, null));
+      gulp.watch(
+        options.css.src
+      , build.css.bind(null, {app: options.css.app, dest: options.build.dest, name: options.name}, null)
+      );
+      gulp.watch(
+        options.html.src
+      , build.html.bind(null, {src: options.html.src, dest: options.build.dest}, null)
+      );
+
       gulp.watch(options.build.dest + '**/*', r.notifier);
     });
   });
