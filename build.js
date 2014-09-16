@@ -3,6 +3,7 @@ var gulp = require('gulp')
   , rename = require('gulp-rename')
   , less = require('gulp-less')
   , autoprefixer = require('gulp-autoprefixer')
+  , sourcemaps = require('gulp-sourcemaps')
   , watchify = require('watchify')
   , browserify = require('browserify')
   , source = require('vinyl-source-stream')
@@ -15,7 +16,12 @@ var js = module.exports.js = function js(options, cb) {
   options = options || {};
   if (!options.app || !options.dest || !options.name) return cb(new Error('(BuildJS) app, dest and name are required.'));
 
-  var compiler = watchify(browserify(options.app, watchify.args));
+  var browserifyArgs = {
+    entries: [options.app]
+  , extensions: ['.js']
+  , debug: true // source maps
+  };
+  var compiler = watchify(browserify(_.extend(watchify.args, browserifyArgs)));
 
   compiler.on('update', compile);
   compiler.on('error', util.log);
@@ -50,9 +56,11 @@ var css = module.exports.css = function css(options, cb) {
     util.log('Compiling ' + util.colors.blue(options.app) + ' into ' + util.colors.blue(options.dest + '/' + options.name + '.css'));
     
     gulp.src(options.app)
+      .pipe(sourcemaps.init())
       .pipe(autoprefixer("last 2 versions", "> 1%", "ie 8"))
       .pipe(less())
       .pipe(rename(options.name + '.css'))
+      .pipe(sourcemaps.write())
       .pipe(gulp.dest(options.dest))
       .on('end', cb || function() {})
       .on('error', cb || util.log);
