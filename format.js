@@ -22,14 +22,10 @@ module.exports = function format(options) {
       src: './test/**/*.js'
     , app: './test/app.js'
     }
-  , build: {
-      dest: './build'
-    }
-  , dist: {
-      dest: './dist'
-    }
-  , report: {
-      dest: './report'
+  , dirs: {
+      build: './build'
+    , dist: './dist'
+    , report: './report'
     }
   };
 
@@ -54,14 +50,10 @@ module.exports = function format(options) {
   if (!_.isUndefined(options.testSrc)) formattedOptions.test.src = options.testSrc;
   if (!_.isUndefined(options.testApp)) formattedOptions.test.app = options.testApp;
 
-  //- BUILD
-  if (!_.isUndefined(options.buildDest)) formattedOptions.build.dest = options.buildDir;
-
-  //- DIST
-  if (!_.isUndefined(options.distDest)) formattedOptions.dist.dest = options.distDir;
-
-  //- REPORTS
-  if (!_.isUndefined(options.reportDest)) formattedOptions.report.dest = options.reportDir;
+  //- DIRS
+  if (!_.isUndefined(options.buildDir)) formattedOptions.dirs.build = options.buildDir;
+  if (!_.isUndefined(options.distDir)) formattedOptions.dirs.dist = options.distDir;
+  if (!_.isUndefined(options.reportDir)) formattedOptions.dirs.report = options.reportDir;
 
   return formattedOptions;
 };
