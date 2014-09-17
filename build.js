@@ -12,19 +12,27 @@ var gulp = require('gulp')
   , async = require('async')
   , _ = require('underscore');
 
+module.exports.all = function all(buildOptions, options, cb) {
+  async.parallel([
+    js.bind(this, _.extend(options.js, buildOptions))
+  , css.bind(this, _.extend(options.css, buildOptions))
+  , html.bind(this, {src: options.html.src, dest: buildOptions.dest})
+  ], cb);
+};
+
 var js = module.exports.js = function js(options, cb) {
   options = options || {};
   if (!options.app || !options.dest || !options.name) return cb(new Error('(BuildJS) app, dest and name are required.'));
 
-  var browserifyArgs = {
-    entries: [options.app]
-  , extensions: ['.js']
-  , debug: true // source maps
-  };
-  var compiler = watchify(browserify(_.extend(watchify.args, browserifyArgs)));
+  var compiler = browserify(_.extend(watchify.args, {entries: [options.app], extensions: ['.js'], debug: true}));
+  // debug is for source maps
 
-  compiler.on('update', compile);
-  compiler.on('error', util.log);
+  if (options.watch) {
+    compiler = watchify(compiler);
+    compiler.on('update', compile);
+    compiler.on('error', util.log);
+  }
+
   compile();
 
   function compile(wargs) {
@@ -80,12 +88,4 @@ var html = module.exports.html = function html(options, cb) {
       .on('end', cb || function() {})
       .on('error', cb || util.log);
   });
-};
-
-module.exports.all = function all(options, cb) {
-  async.parallel([
-    js.bind(null, _.extend(options.js, {dest: options.build.dest, name: options.name}))
-  , css.bind(null, _.extend(options.css, {dest: options.build.dest, name: options.name}))
-  , html.bind(null, {src: options.html.src, dest: options.build.dest})
-  ], cb);
 };
