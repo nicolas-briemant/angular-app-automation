@@ -55,5 +55,8 @@ module.exports = function format(options) {
   if (!_.isUndefined(options.distDir)) formattedOptions.dirs.dist = options.distDir;
   if (!_.isUndefined(options.reportDir)) formattedOptions.dirs.report = options.reportDir;
 
+  //- SHORTCUTS
+  formattedOptions.js.name = formattedOptions.css.name = formattedOptions.name;
+
   return formattedOptions;
 };
