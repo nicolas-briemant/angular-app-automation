@@ -7,7 +7,8 @@ var _ = require('underscore')
   , clean = require('./clean')
   , build = require('./build')
   , lint = require('./lint')
-  , server = require('./server');
+  , server = require('./server')
+  , karma = require('karma');
 
 module.exports = function(gulp, options) {
   var options = format(options);
@@ -21,20 +22,24 @@ module.exports = function(gulp, options) {
 
   gulp.task('default', function(cb) {
     util.log('Available tasks:'
-      + util.colors.green('\ndev') + util.colors.cyan(' lite developement workflow (without tests) ')
+      + util.colors.green('\ndev:fast') + util.colors.cyan(' fast developement workflow (without unit tests)')
         + '\n- build (browserify, less, sourcemaps, autoprefixer)'
         + '\n- serve application (express)'
         + '\n- provide linting (non-blocking) for js (jshint) and css (recess)'
         + '\n- connected browsers will automatically refresh when files are updated (livereload)'
-      + util.colors.green('\ndist:build') + util.colors.cyan(' distribution building workflow ')
+      + util.colors.green('\ndev:unit') + util.colors.cyan(' test (unit) driven developement workflow')
+        + '\n- rely on dev:fast task'
+        + '\n- run tests using karma through jasmine DSL'
+      + util.colors.green('\ndist:build') + util.colors.cyan(' build dist')
         + '\n- build (browserify, less, autoprefixer)'
         + '\n- minify js (uglify2, supports angular DI) and css (csso)'
-      + util.colors.green('\ndist:serve') + util.colors.cyan(' serve distribution for checking purpose')
+      + util.colors.green('\ndist:serve') + util.colors.cyan(' serve dist build for checking purpose')
     );
+
     cb();
   });
 
-  gulp.task('dev', function() {
+  gulp.task('dev', function(cb) {
     async.series({
       'clean': clean.bind(null, {src: options.dirs.build})
     , 'build': build.all.bind(null, {dest: options.dirs.build, watch: true}, options)
@@ -44,7 +49,7 @@ module.exports = function(gulp, options) {
 
       gulp.watch(
         options.css.src
-      , build.css.bind(null, {app: options.css.app, dest: options.dirs.build, name: options.name}, null)
+      , build.css.bind(null, _.extend(options.css, {dest: options.dirs.build, name: options.name}), null)
       );
       gulp.watch(
         options.html.src
@@ -52,6 +57,24 @@ module.exports = function(gulp, options) {
       );
 
       gulp.watch(options.dirs.build + '**/*', r.notifier);
+
+      cb();
+    });
+  });
+
+  gulp.task('dev:unit', ['dev'], function(cb) {
+    build.js(_.extend(options.test.unit, {dest: options.dirs.test, watch: true}), function(err) {
+      if (err) return error(err);
+
+      var karmaUnitOptions = {
+        singleRun: false
+      , autoWatch: true
+      , files: [options.dirs.build + '/*.js', options.dirs.test + '/*.js']
+      };
+
+      karma.server.start(_.extend(options.karma, karmaUnitOptions));
+
+      cb();
     });
   });
 
@@ -61,7 +84,9 @@ module.exports = function(gulp, options) {
     , build.all.bind(null, {dest: options.dirs.dist, min: true}, options)
     ], function(err) {
       if (err) return error(err);
+
       util.log(util.colors.green('Distribution ready in ' + options.dirs.dist));
+
       cb();
     });
   });

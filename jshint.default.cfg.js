@@ -15,7 +15,8 @@ module.exports = {
 , latedef: false
 , eqnull: true
 , globals: {
-    jasmine: true
+    angular: true
+  , jasmine: true
   , beforeEach: true
   , afterEach: true
   , describe: true

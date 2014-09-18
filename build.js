@@ -41,10 +41,7 @@ var js = module.exports.js = function js(options, cb) {
   compile();
 
   function compile(wargs) {
-    async.series([
-      clean.bind(null, {src: options.dest + '/' + (options.name || '**/*') + '.js'})
-    , lint.js.bind(null, options)
-    ], function(err) {
+    async.series([lint.js.bind(null, options)], function(err) {
       if (err) return cb ? cb(err) : util.log(err);
       util.log('Browserifying ' + util.colors.blue(options.app) + ' into ' + util.colors.blue(options.dest + '/' + options.name + '.js'));
 
@@ -63,10 +60,7 @@ var css = module.exports.css = function css(options, cb) {
   options = options || {};
   if (!options.app || !options.dest || !options.name) return cb(new Error('(BuildCSS) app, dest and name are required.'));
 
-  async.series([
-    clean.bind(null, {src: options.dest + '/' + (options.name || '**/*') + '.css'})
-  , lint.css.bind(null, options)
-  ], function(err) {
+  async.series([lint.css.bind(null, options)], function(err) {
     if (err) return cb ? cb(err) : util.log(err);
     util.log('Compiling ' + util.colors.blue(options.app) + ' into ' + util.colors.blue(options.dest + '/' + options.name + '.css'));
     
@@ -87,13 +81,10 @@ var html = module.exports.html = function html(options, cb) {
   options = options || {};
   if (!options.src || !options.dest) return cb(new Error('(BuildHTML) src and dest are required.'));
 
-  clean({src: options.dest + '/**/*.html'}, function(err) {
-    if (err) return cb ? cb(err) : util.log(err);
-    util.log('Moving ' + util.colors.blue(options.src) + ' to ' + util.colors.blue(options.dest));
+  util.log('Moving ' + util.colors.blue(options.src) + ' to ' + util.colors.blue(options.dest));
 
-    gulp.src(options.src)
-      .pipe(gulp.dest(options.dest))
-      .on('end', cb || function() {})
-      .on('error', cb || util.log);
-  });
+  gulp.src(options.src)
+    .pipe(gulp.dest(options.dest))
+    .on('end', cb || function() {})
+    .on('error', cb || util.log);
 };
