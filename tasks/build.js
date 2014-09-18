@@ -87,4 +87,4 @@ var html = module.exports.html = function html(options, cb) {
     .pipe(gulp.dest(options.dest))
     .on('end', cb || function() {})
     .on('error', cb || util.log);
-};:
+};
