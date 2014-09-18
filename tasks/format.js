@@ -1,7 +1,7 @@
 var _ = require('underscore')
-  , jsLintConfig = require('./jshint.default.cfg')
-  , cssLintConfig = require('./recess.default.cfg')
-  , karmaConfig = require('./karma.default.cfg');
+  , jsLintConfig = require('../jshint.default.cfg')
+  , cssLintConfig = require('../recess.default.cfg')
+  , karmaConfig = require('../karma.default.cfg');
 
 module.exports = function format(options) {
   options = options || {};
