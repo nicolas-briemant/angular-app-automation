@@ -3,12 +3,11 @@
 var _ = require('underscore')
   , async = require('async')
   , util = require('gulp-util')
-  , format = require('./format')
-  , clean = require('./clean')
-  , build = require('./build')
-  , lint = require('./lint')
-  , server = require('./server')
-  , plato = require('./plato')
+  , format = require('./tasks/format')
+  , clean = require('./tasks/clean')
+  , build = require('./tasks/build')
+  , server = require('./tasks/server')
+  , plato = require('./tasks/plato')
   , karma = require('karma');
 
 module.exports = function(gulp, options) {
