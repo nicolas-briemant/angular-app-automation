@@ -8,6 +8,7 @@ var _ = require('underscore')
   , build = require('./build')
   , lint = require('./lint')
   , server = require('./server')
+  , plato = require('./plato')
   , karma = require('karma');
 
 module.exports = function(gulp, options) {
@@ -93,5 +94,13 @@ module.exports = function(gulp, options) {
 
   gulp.task('dist:serve', ['dist:build'], function(cb) {
     server({src: options.dirs.dist}, cb);
+  });
+
+  gulp.task('plato:report', function() {
+    plato(_.extend(options.js, {dest: options.dirs.report + '/plato'}));
+  });
+
+  gulp.task('plato:serve', ['plato:report'], function(cb) {
+    server({src: options.dirs.report + '/plato'}, cb);
   });
 };
