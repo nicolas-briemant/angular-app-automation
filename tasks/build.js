@@ -27,7 +27,7 @@ module.exports.all = function all(buildOptions, options, cb) {
 
 var js = module.exports.js = function js(options, cb) {
   options = options || {};
-  if (!options.app || !options.dest || !options.name) return cb(new Error('(BuildJS) app, dest and name are required.'));
+  if (!options.app || !options.dest || !options.name) throw new util.PluginError('BuildJS', 'app, dest and name are required.');
 
   var compiler = browserify(_.extend(watchify.args, {entries: [options.app], extensions: ['.js'], debug: true}));
   // debug is for source maps
@@ -58,7 +58,7 @@ var js = module.exports.js = function js(options, cb) {
 
 var css = module.exports.css = function css(options, cb) {
   options = options || {};
-  if (!options.app || !options.dest || !options.name) return cb(new Error('(BuildCSS) app, dest and name are required.'));
+  if (!options.app || !options.dest || !options.name) throw new util.PluginError('BuildCSS', 'app, dest and name are required.');
 
   async.series([lint.css.bind(null, options)], function(err) {
     if (err) return cb ? cb(err) : util.log(err);
@@ -79,7 +79,7 @@ var css = module.exports.css = function css(options, cb) {
 
 var html = module.exports.html = function html(options, cb) {
   options = options || {};
-  if (!options.src || !options.dest) return cb(new Error('(BuildHTML) src and dest are required.'));
+  if (!options.src || !options.dest) throw new util.PluginError('BuildHTML', 'src and dest are required.');
 
   util.log('Moving ' + util.colors.blue(options.src) + ' to ' + util.colors.blue(options.dest));
 
@@ -87,4 +87,4 @@ var html = module.exports.html = function html(options, cb) {
     .pipe(gulp.dest(options.dest))
     .on('end', cb || function() {})
     .on('error', cb || util.log);
-};
+};:

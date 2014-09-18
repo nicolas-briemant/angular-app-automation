@@ -6,7 +6,7 @@ var gulp = require('gulp')
 
 var js = module.exports.js = function js(options, cb) {
   options = options || {};
-  if (!options.src || !options.lint) return cb(new Error('(LintJS) src and lint are required.'));
+  if (!options.src || !options.lint) throw new util.PluginError('LintJS', 'src and lint are required.');
 
   util.log('Linting (jshint) ' + util.colors.blue(options.src));
 
@@ -20,7 +20,7 @@ var js = module.exports.js = function js(options, cb) {
 
 var css = module.exports.css = function css(options, cb) {
   options = options || {};
-  if (!options.src || !options.lint) return cb(new Error('(LintCSS) src and lint are required.'));
+  if (!options.src || !options.lint) throw new util.PluginError('LintCSS', 'src and lint are required.');
 
   util.log('Linting (recess) ' + util.colors.blue(options.src));
 

@@ -8,7 +8,7 @@ module.exports = function server(options, cb) {
   options = options || {};
   options.port = options.port || 5000;
   options.lrport = options.lrport || 5001;
-  if (!options.src) return new cb(new Error('(Server) src is required.'));
+  if (!options.src) throw new util.PluginError('Server', 'src is required.');
 
   var server = express();
 

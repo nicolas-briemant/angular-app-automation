@@ -6,7 +6,7 @@ module.exports = function clean(options, cb) {
   cb = cb || util.log;
 
   options = options || {};
-  if (!options.src) return cb(new Error('(Cleaning) src is required.'));
+  if (!options.src) throw new util.PluginError('Cleaning', 'src is required.');
 
   util.log('Cleaning ' + util.colors.blue(options.src));
 
