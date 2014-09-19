@@ -1,4 +1,4 @@
 module.exports = {
   browsers: ['PhantomJS'] // 'Chrome', 'Firefox'
-, frameworks: ['jasmine']
+, frameworks: ['jasmine', 'browserify']
 };

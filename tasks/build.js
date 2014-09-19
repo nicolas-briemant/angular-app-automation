@@ -65,12 +65,12 @@ var css = module.exports.css = function css(options, cb) {
     util.log('Compiling ' + util.colors.blue(options.app) + ' into ' + util.colors.blue(options.dest + '/' + options.name + '.css'));
     
     gulp.src(options.app)
-      .pipe(sourcemaps.init())
+      // .pipe(sourcemaps.init())
       .pipe(autoprefixer("last 2 versions", "> 1%", "ie 8"))
       .pipe(less())
       .pipe(rename(options.name + '.css'))
       .pipe(gulpif(options.min, csso()))
-      .pipe(sourcemaps.write())
+      // .pipe(sourcemaps.write())
       .pipe(gulp.dest(options.dest))
       .on('end', cb || function() {})
       .on('error', cb || util.log);

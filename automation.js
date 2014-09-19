@@ -102,4 +102,51 @@ module.exports = function(gulp, options) {
   gulp.task('plato:serve', ['plato:report'], function(cb) {
     server({src: options.dirs.report + '/plato'}, cb);
   });
+
+  gulp.task('coverops', function(cb) {
+    async.series({
+      'build': build.js.bind(null, _.extend(options.js, {dest: options.dirs.build}))
+    }, function(err) {
+      if (err) return error(err);
+
+      build.js(_.extend(options.test.unit, {dest: options.dirs.test}), function(err) {
+        if (err) return error(err);
+
+        // var karmaUnitOptions = {
+        //   singleRun: true
+        // , autoWatch: false
+        // , files: [options.dirs.build + '/*.js', options.dirs.test + '/*.js']
+        // , reporters: ['progress', 'coverage']
+        // , preprocessors: {}
+        // , coverageReporter: {
+        //     type : 'html',
+        //     dir : options.dirs.report + '/coverage'
+        //   }
+        // };
+        //
+        // karmaUnitOptions.preprocessors[options.dirs.build + ''] = ['coverage'];
+
+        var karmaUnitOptions = {
+          singleRun: true
+        , autoWatch: false
+        , files: ['./src/**/*.js']
+        , reporters: ['progress', 'coverage']
+        , preprocessors: {}
+        , coverageReporter: {
+            type : 'html',
+            dir : options.dirs.report + '/coverage'
+          }
+        , browserify: {debug: true, external: ['angular']}
+        };
+
+        karmaUnitOptions.preprocessors[options.dirs.build + ''] = ['coverage'];
+        karmaUnitOptions.preprocessors[options.js.app] = ['browserify'];
+        karmaUnitOptions.preprocessors[options.test.unit.app] = ['browserify'];
+
+        karma.server.start(_.extend(options.karma, karmaUnitOptions), function() {
+          server({src: options.dirs.report + '/coverage/PhantomJS 1.9.7 (Linux)'}, cb);
+        });
+      });
+    });
+  });
 };
