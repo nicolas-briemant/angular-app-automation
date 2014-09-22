@@ -1,9 +1,6 @@
 ![](https://github.com/tom-ripley/angular-app-automation/blob/master/resources/icon.png)
 
-
-
 > Gulp automation suite for an angular app.
-
 
 This package does certainly not cover all your needs.  
 Feel free to fork it and create pull request with your improvements.
