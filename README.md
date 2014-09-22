@@ -8,12 +8,12 @@ Jump to the [**Task reference**]().
 
 # Features
 
-- Compiles JavaScript modules into a single file ([browserify](http://browserify.org/)) with source maps.
+- Compiles JavaScript modules into a single file ([browserify](http://browserify.org/)) with source maps
 - Uses [ng-annotate](https://github.com/olov/ng-annotate) before minification ([UglifyJS2](https://github.com/mishoo/UglifyJS2))
-- Compiles [LESS](http://lesscss.org/) into a single CSS file with source maps.
+- Compiles [LESS](http://lesscss.org/) into a single CSS file with source maps
 - Uses [csso](https://github.com/css/csso) to minify CSS and postprocesses it with [autoprefixer](https://github.com/postcss/autoprefixer)
 - Lint JS ([jshint](http://www.jshint.com/)) and CSS ([recess](http://twitter.github.io/recess/))
-- Runs unit tests using [karma(http://karma-runner.github.io/)] with [jasmine](http://jasmine.github.io/), supports Chrome, Firefox, Safari and PhantomJS (headless browser)
+- Runs unit tests using [karma](http://karma-runner.github.io/) with [jasmine](http://jasmine.github.io/); supports Chrome, Firefox, Safari and PhantomJS (headless browser)
 - Generates coverage report with [istanbul](https://github.com/gotwarlost/istanbul) and complexity/maintainability reports (history) with [plato](https://github.com/es-analysis/plato)
 - Provides a development server ([express](http://expressjs.com/)) with [livereload](http://livereload.com/) capability
 
@@ -65,10 +65,13 @@ buildDir|Directory of development builds, defaults to `./build`
 distDir|Directory of distribution builds, defaults to `./dist`
 karma|Karma config object, defaults in `karma.default.cfg`
 
-_Note: The default configuration is motivated by a modular organization of the application:
+# Conventions
+
+The default configuration is motivated by a modular organization of the application:
 - src
   - app.js
   - app.less
+  - index.html
   - module1
     - controller1.js
     - controller2.js
@@ -78,14 +81,15 @@ _Note: The default configuration is motivated by a modular organization of the a
     - style1.less
   - module2
     - ...
-_
+
+Take a look at this [article](https://docs.google.com/document/d/1XXMvReO8-Awi1EZXAXS4PzDzdNvV6pGcuaF4Q9821Es/pub) for more details.
 
 # Task reference
 
 tasks|purpose
 ---|---
-`dev`|Starts a development environment: incrementally build (browserify, less, non-blocking linting) and serve (express, livereload)
-`dev:unit`|Starts the dev environment with unit testing support
+`dev`|Incrementally builds application (browserify, less, lint) and serve it (express, livereload)
+`dev:unit`|Starts the dev environment with unit testing support (karma and jasmine)
 `dist:build`|Builds distribution (minification)
 `dist:serve`|Builds distribution and serve it for checking purpose
 `plato:report`|Generates plato report
