@@ -2,6 +2,7 @@
 
 var _ = require('underscore')
   , async = require('async')
+  , glob = require('glob')
   , util = require('gulp-util')
   , format = require('./tasks/format')
   , clean = require('./tasks/clean')
@@ -96,57 +97,38 @@ module.exports = function(gulp, options) {
   });
 
   gulp.task('plato:report', function() {
-    plato(_.extend(options.js, {dest: options.dirs.report + '/plato'}));
+    plato(_.extend(options.js, {dest: options.dirs.plato}));
   });
 
   gulp.task('plato:serve', ['plato:report'], function(cb) {
-    server({src: options.dirs.report + '/plato'}, cb);
+    server({src: options.dirs.plato}, cb);
   });
 
-  gulp.task('coverops', function(cb) {
-    async.series({
-      'build': build.js.bind(null, _.extend(options.js, {dest: options.dirs.build}))
-    }, function(err) {
+  gulp.task('coverage:report', function(cb) {
+    async.parallel([
+      clean.bind(null, {src: options.dirs.coverage})
+    , build.js.bind(null, _.extend(options.js, {dest: options.dirs.build, coverage: true}))
+    , build.js.bind(null, _.extend(options.test.unit, {dest: options.dirs.test}))
+    ], function(err) {
       if (err) return error(err);
 
-      build.js(_.extend(options.test.unit, {dest: options.dirs.test}), function(err) {
-        if (err) return error(err);
+      var karmaCoverageOptions = {
+        singleRun: true
+      , autoWatch: false
+      , files: [options.dirs.build + '/*.js', options.dirs.test + '/*.js']
+      , reporters: ['progress', 'coverage']
+      , coverageReporter: {type : 'html', dir : options.dirs.coverage}
+      };
 
-        // var karmaUnitOptions = {
-        //   singleRun: true
-        // , autoWatch: false
-        // , files: [options.dirs.build + '/*.js', options.dirs.test + '/*.js']
-        // , reporters: ['progress', 'coverage']
-        // , preprocessors: {}
-        // , coverageReporter: {
-        //     type : 'html',
-        //     dir : options.dirs.report + '/coverage'
-        //   }
-        // };
-        //
-        // karmaUnitOptions.preprocessors[options.dirs.build + ''] = ['coverage'];
-
-        var karmaUnitOptions = {
-          singleRun: true
-        , autoWatch: false
-        , files: ['./src/**/*.js']
-        , reporters: ['progress', 'coverage']
-        , preprocessors: {}
-        , coverageReporter: {
-            type : 'html',
-            dir : options.dirs.report + '/coverage'
-          }
-        , browserify: {debug: true, external: ['angular']}
-        };
-
-        karmaUnitOptions.preprocessors[options.dirs.build + ''] = ['coverage'];
-        karmaUnitOptions.preprocessors[options.js.app] = ['browserify'];
-        karmaUnitOptions.preprocessors[options.test.unit.app] = ['browserify'];
-
-        karma.server.start(_.extend(options.karma, karmaUnitOptions), function() {
-          server({src: options.dirs.report + '/coverage/PhantomJS 1.9.7 (Linux)'}, cb);
-        });
-      });
+      karma.server.start(_.extend(options.karma, karmaCoverageOptions), cb);
     });
   });
+
+  gulp.task('coverage:serve', ['coverage:report'], function(cb) {
+    glob(options.dirs.coverage + '/PhantomJS*', function(err, files) {
+      if (err || files.length !== 1) return error(err);
+
+      server({src: _.first(files)}, cb);
+    });
+  })
 };
