@@ -1,13 +1,9 @@
 ![](https://github.com/tom-ripley/angular-app-automation/blob/master/resources/icon.png)
 
-# angular-app-automation
-
 > Gulp automation suite for an angular app.
 
-This package does certainly not cover all your needs.
-
-Feel free to fork it and create pull request with your improvements.
-
+This package does certainly not cover all your needs.  
+Feel free to fork it and create pull request with your improvements.  
 Jump to the [**Task reference**](https://github.com/tom-ripley/angular-app-automation#task-reference).
 
 # Features
