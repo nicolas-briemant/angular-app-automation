@@ -21,25 +21,6 @@ module.exports = function(gulp, options) {
     }
   }
 
-  gulp.task('default', function(cb) {
-    util.log('Available tasks:'
-      + util.colors.green('\ndev:fast') + util.colors.cyan(' fast developement workflow (without unit tests)')
-        + '\n- build (browserify, less, sourcemaps, autoprefixer)'
-        + '\n- serve application (express)'
-        + '\n- provide linting (non-blocking) for js (jshint) and css (recess)'
-        + '\n- connected browsers will automatically refresh when files are updated (livereload)'
-      + util.colors.green('\ndev:unit') + util.colors.cyan(' test (unit) driven developement workflow')
-        + '\n- rely on dev:fast task'
-        + '\n- run tests using karma through jasmine DSL'
-      + util.colors.green('\ndist:build') + util.colors.cyan(' build dist')
-        + '\n- build (browserify, less, autoprefixer)'
-        + '\n- minify js (uglify2, supports angular DI) and css (csso)'
-      + util.colors.green('\ndist:serve') + util.colors.cyan(' serve dist build for checking purpose')
-    );
-
-    cb();
-  });
-
   gulp.task('dev', function(cb) {
     async.series({
       'clean': clean.bind(null, {src: options.dirs.build})
