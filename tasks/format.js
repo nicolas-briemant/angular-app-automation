@@ -8,6 +8,10 @@ module.exports = function format(options) {
 
   var formattedOptions = {
     name: 'app'
+  , server: {
+      port: 5000
+    , lrport: 5001
+    }
   , js: {
       src: './src/**/*.js'
     , app: './src/app.js'
@@ -41,6 +45,10 @@ module.exports = function format(options) {
   //- GENERAL
   if (!_.isUndefined(options.pkg) && !_.isUndefined(options.pkg.name)) formattedOptions.name = options.pkg.name;
   if (!_.isUndefined(options.name)) name = formattedOptions.options.name;
+
+  //- SERVER
+  if (!_.isUndefined(options.port)) formattedOptions.server.port = options.port;
+  if (!_.isUndefined(options.lrport)) formattedOptions.server.lrport = options.lrport;
 
   //- JS
   if (!_.isUndefined(options.jsSrc)) formattedOptions.js.src = options.jsSrc;

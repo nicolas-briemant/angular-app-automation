@@ -25,7 +25,7 @@ module.exports = function(gulp, options) {
     async.series({
       'clean': clean.bind(null, {src: options.dirs.build})
     , 'build': build.all.bind(null, {dest: options.dirs.build, watch: true}, options)
-    , 'notifier': server.bind(null, {src: options.dirs.build})
+    , 'notifier': server.bind(null, _.extend(options.server, {src: options.dirs.build}))
     }, function(err, r) {
       if (err) return error(err);
 
@@ -74,7 +74,7 @@ module.exports = function(gulp, options) {
   });
 
   gulp.task('dist:serve', ['dist:build'], function(cb) {
-    server({src: options.dirs.dist}, cb);
+    server(_.extend(options.server, {src: options.dirs.dist}), cb);
   });
 
   gulp.task('plato:report', function() {
@@ -82,7 +82,7 @@ module.exports = function(gulp, options) {
   });
 
   gulp.task('plato:serve', ['plato:report'], function(cb) {
-    server({src: options.dirs.plato}, cb);
+    server(_.extend(options.server, {src: options.dirs.plato}), cb);
   });
 
   gulp.task('coverage:report', function(cb) {
@@ -109,7 +109,7 @@ module.exports = function(gulp, options) {
     glob(options.dirs.coverage + '/PhantomJS*', function(err, files) {
       if (err || files.length !== 1) return error(err);
 
-      server({src: _.first(files)}, cb);
+      server(_.extend(options.server, {src: _.first(files)}), cb);
     });
   })
 };

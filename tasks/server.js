@@ -6,9 +6,7 @@ var express = require('express')
 
 module.exports = function server(options, cb) {
   options = options || {};
-  options.port = options.port || 5000;
-  options.lrport = options.lrport || 5001;
-  if (!options.src) throw new util.PluginError('Server', 'src is required.');
+  if (!options.port || !options.lrport || !options.src) throw new util.PluginError('Server', 'port, lrport and src are required.');
 
   var server = express();
 
