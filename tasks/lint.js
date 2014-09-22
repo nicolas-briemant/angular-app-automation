@@ -13,7 +13,7 @@ var js = module.exports.js = function js(options, cb) {
   gulp.src(options.src)
     .pipe(jshint(options.lint))
     .pipe(jshint.reporter('jshint-stylish'))
-    .pipe(gulp.dest('./tmp')) // only to emit an end event
+    .pipe(gulp.dest('./.tmp')) // only to emit an end event
     .on('end', cb || function() {})
     .on('error', cb || util.log);
 };
@@ -27,7 +27,7 @@ var css = module.exports.css = function css(options, cb) {
   gulp.src(options.src)
     .pipe(recess(options.lint))
     .pipe(recess.reporter())
-    .pipe(gulp.dest('./tmp')) // only to emit an end event
+    .pipe(gulp.dest('./.tmp')) // only to emit an end event
     .on('end', cb || function() {})
     .on('error', cb || util.log);
 };
