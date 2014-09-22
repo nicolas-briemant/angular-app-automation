@@ -2,9 +2,9 @@
 
 > Gulp automation suite for an angular app.
 
-_Note: This package fulfills my needs but certainly does not cover yours. Feel free to fork it and create pull request with your improvements._
+_Note: This package does certainly not cover all your needs. Feel free to fork it and create pull request with your improvements._
 
-Jump to the [**Task reference**]().
+Jump to the [**Task reference**](https://github.com/tom-ripley/angular-app-automation#task-reference).
 
 # Features
 
@@ -33,15 +33,17 @@ npm install -g gulp
 Take a look at [angular-app-seed](https://github.com/tom-ripley/angular-app-seed) to see how to use this package.
 
 ```javascript
+// gulpfile.js
+
 var gulp = require('gulp')
   , automation = require('angular-app-automation');
 
 automation(gulp, /* options goes here */);
 
-// No option
+// no option
 automation(gulp);
 
-// Inline options
+// inline options
 automation(gulp, {jsSrc: './src/js/**/*.js', jsApp: './src/main.js'});
 ```
 
@@ -52,6 +54,8 @@ Here are the available options:
 option|purpose
 ---|---
 name|name of the application, defaults to `app`
+port|port used by express, defaults to `5000`
+lrport|livereload port, defaults to `5001`
 jsSrc|JavaScript source files, defaults to `./src/**/*.js`
 jsApp|JavaScript entry point for browserify, defaults to `./src/app.js`
 jsLint|JavaScript lint config object, defaults in `jshint.default.cfg` file
@@ -65,7 +69,7 @@ buildDir|Directory of development builds, defaults to `./build`
 distDir|Directory of distribution builds, defaults to `./dist`
 karma|Karma config object, defaults in `karma.default.cfg`
 
-# Conventions
+# Convention
 
 The default configuration is motivated by a modular organization of the application:
 - src
@@ -88,7 +92,7 @@ Take a look at this [article](https://docs.google.com/document/d/1XXMvReO8-Awi1E
 
 tasks|purpose
 ---|---
-`dev`|Incrementally builds application (browserify, less, lint) and serve it (express, livereload)
+`dev`|Builds application (browserify, less, lint) and serve it (express, livereload)
 `dev:unit`|Starts the dev environment with unit testing support (karma and jasmine)
 `dist:build`|Builds distribution (minification)
 `dist:serve`|Builds distribution and serve it for checking purpose
