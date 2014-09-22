@@ -31,8 +31,9 @@ module.exports = function format(options) {
   , dirs: {
       build: './build'
     , dist: './dist'
-    , report: './report'
     , test: './test'
+    , coverage: './.coverage'
+    , plato: './.plato'
     }
   , karma: karmaConfig
   };
@@ -61,7 +62,6 @@ module.exports = function format(options) {
   //- DIRS
   if (!_.isUndefined(options.buildDir)) formattedOptions.dirs.build = options.buildDir;
   if (!_.isUndefined(options.distDir)) formattedOptions.dirs.dist = options.distDir;
-  if (!_.isUndefined(options.reportDir)) formattedOptions.dirs.report = options.reportDir;
 
   //- KARMA
   if (!_.isUndefined(options.karma)) formattedOptions.karma = _.extend(formattedOptions.karma, options.karma);
