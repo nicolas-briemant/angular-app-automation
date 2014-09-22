@@ -2,7 +2,9 @@
 
 > Gulp automation suite for an angular app.
 
-_Note: This package does certainly not cover all your needs. Feel free to fork it and create pull request with your improvements._
+This package does certainly not cover all your needs.
+
+Feel free to fork it and create pull request with your improvements.
 
 Jump to the [**Task reference**](https://github.com/tom-ripley/angular-app-automation#task-reference).
 
@@ -13,7 +15,7 @@ Jump to the [**Task reference**](https://github.com/tom-ripley/angular-app-autom
 - Compiles [LESS](http://lesscss.org/) into a single CSS file with source maps
 - Uses [csso](https://github.com/css/csso) to minify CSS and postprocesses it with [autoprefixer](https://github.com/postcss/autoprefixer)
 - Lint JS ([jshint](http://www.jshint.com/)) and CSS ([recess](http://twitter.github.io/recess/))
-- Runs unit tests using [karma](http://karma-runner.github.io/) with [jasmine](http://jasmine.github.io/); supports Chrome, Firefox, Safari and PhantomJS (headless browser)
+- Runs unit tests using [karma](http://karma-runner.github.io/) with [jasmine](http://jasmine.github.io/)
 - Generates coverage report with [istanbul](https://github.com/gotwarlost/istanbul) and complexity/maintainability reports (history) with [plato](https://github.com/es-analysis/plato)
 - Provides a development server ([express](http://expressjs.com/)) with [livereload](http://livereload.com/) capability
 
@@ -38,7 +40,7 @@ Take a look at [angular-app-seed](https://github.com/tom-ripley/angular-app-seed
 var gulp = require('gulp')
   , automation = require('angular-app-automation');
 
-automation(gulp, /* options goes here */);
+automation(gulp, /* options here */);
 
 // no option
 automation(gulp);
