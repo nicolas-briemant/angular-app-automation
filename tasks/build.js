@@ -10,6 +10,7 @@ var gulp = require('gulp')
   , streamify = require('gulp-streamify')
   , watchify = require('watchify')
   , browserify = require('browserify')
+  , istanbul = require('browserify-istanbul')
   , source = require('vinyl-source-stream')
   , ngAnnotate = require('gulp-ng-annotate')
   , clean = require('./clean')
@@ -29,13 +30,15 @@ var js = module.exports.js = function js(options, cb) {
   options = options || {};
   if (!options.app || !options.dest || !options.name) throw new util.PluginError('BuildJS', 'app, dest and name are required.');
 
-  var compiler = browserify(_.extend(watchify.args, {entries: [options.app], extensions: ['.js'], debug: true}));
   // debug is for source maps
+  var bundle = browserify(_.extend(watchify.args, {entries: [options.app], extensions: ['.js'], debug: true}));
+
+  if (options.coverage) bundle.transform(istanbul);
 
   if (options.watch) {
-    compiler = watchify(compiler);
-    compiler.on('update', compile);
-    compiler.on('error', util.log);
+    bundle = watchify(bundle);
+    bundle.on('update', compile);
+    bundle.on('error', util.log);
   }
 
   compile();
@@ -45,7 +48,7 @@ var js = module.exports.js = function js(options, cb) {
       if (err) return cb ? cb(err) : util.log(err);
       util.log('Browserifying ' + util.colors.blue(options.app) + ' into ' + util.colors.blue(options.dest + '/' + options.name + '.js'));
 
-      return compiler.bundle()
+      return bundle.bundle()
         .pipe(source(options.name + '.js'))
         .pipe(gulpif(options.min, streamify(ngAnnotate())))
         .pipe(gulpif(options.min, streamify(uglify())))
