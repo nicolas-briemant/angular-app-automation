@@ -1,4 +1,4 @@
-![](https://github.com/tom-ripley/angular-app-automation/blob/master/resources/icon.png)
+![](https://raw.githubusercontent.com/tom-ripley/angular-app-automation/master/resources/icon.png)
 
 > Gulp automation suite for an angular app.
 
