@@ -35,7 +35,6 @@ module.exports = function format(options) {
   , dirs: {
       build: './build'
     , dist: './dist'
-    , test: './test'
     , coverage: './.coverage'
     , complexity: './.complexity'
     }

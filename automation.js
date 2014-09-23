@@ -45,13 +45,13 @@ module.exports = function(gulp, options) {
   });
 
   gulp.task('dev:unit', ['dev'], function(cb) {
-    build.js(_.extend(options.test.unit, {dest: options.dirs.test, watch: true}), function(err) {
+    build.js(_.extend(options.test.unit, {dest: options.dirs.build, watch: true}), function(err) {
       if (err) return error(err);
 
       var karmaUnitOptions = {
         singleRun: false
       , autoWatch: true
-      , files: [options.dirs.build + '/*.js', options.dirs.test + '/*.js']
+      , files: [options.dirs.build + '/*.js']
       };
 
       karma.server.start(_.extend(options.karma, karmaUnitOptions));
