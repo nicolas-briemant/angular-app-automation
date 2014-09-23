@@ -6,19 +6,7 @@
     "gulp",
     "automation",
     "angular",
-    "browserify",
-    "jshint",
-    "uglifyjs2",
-    "less",
-    "recess",
-    "autoprefixer",
-    "csso",
-    "express",
-    "livereload",
-    "karma",
-    "jasmine",
-    "istanbul",
-    "plato"
+    "angularjs"
   ],
   "main": "automation.js",
   "licenses": [
