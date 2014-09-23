@@ -1,6 +1,6 @@
 {
   "name": "angular-app-automation",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Gulp automation suite for an angular app.",
   "keywords": [
     "gulp",
