@@ -102,6 +102,11 @@ tasks|purpose
 `coverage:report`|Generates coverage report (istanbul)
 `coverage:serve`|Serves coverage report
 
+# Todo
+
+- Add continuous integration task that can be used for travis and coveralls.
+- Add images optimization
+
 # License
 
 The MIT License (MIT)
