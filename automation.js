@@ -89,14 +89,14 @@ module.exports = function(gulp, options) {
     async.parallel([
       clean.bind(null, {src: options.dirs.coverage})
     , build.js.bind(null, _.extend(options.js, {dest: options.dirs.build, coverage: true}))
-    , build.js.bind(null, _.extend(options.test.unit, {dest: options.dirs.test}))
+    , build.js.bind(null, _.extend(options.test.unit, {dest: options.dirs.build}))
     ], function(err) {
       if (err) return error(err);
 
       var karmaCoverageOptions = {
         singleRun: true
       , autoWatch: false
-      , files: [options.dirs.build + '/*.js', options.dirs.test + '/*.js']
+      , files: [options.dirs.build + '/*.js']
       , reporters: ['progress', 'coverage']
       , coverageReporter: {type : 'html', dir : options.dirs.coverage}
       };
