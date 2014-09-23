@@ -37,7 +37,7 @@ module.exports = function format(options) {
     , dist: './dist'
     , test: './test'
     , coverage: './.coverage'
-    , plato: './.plato'
+    , complexity: './.complexity'
     }
   , karma: karmaConfig
   };

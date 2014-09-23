@@ -8,7 +8,7 @@ var _ = require('underscore')
   , clean = require('./tasks/clean')
   , build = require('./tasks/build')
   , server = require('./tasks/server')
-  , plato = require('./tasks/plato')
+  , complexity = require('./tasks/complexity')
   , karma = require('karma');
 
 module.exports = function(gulp, options) {
@@ -77,12 +77,12 @@ module.exports = function(gulp, options) {
     server(_.extend(options.server, {src: options.dirs.dist}), cb);
   });
 
-  gulp.task('plato:report', function() {
-    plato(_.extend(options.js, {dest: options.dirs.plato}));
+  gulp.task('complexity:report', function() {
+    complexity(_.extend(options.js, {dest: options.dirs.complexity}));
   });
 
-  gulp.task('plato:serve', ['plato:report'], function(cb) {
-    server(_.extend(options.server, {src: options.dirs.plato}), cb);
+  gulp.task('complexity:serve', ['complexity:report'], function(cb) {
+    server(_.extend(options.server, {src: options.dirs.complexity}), cb);
   });
 
   gulp.task('coverage:report', function(cb) {
