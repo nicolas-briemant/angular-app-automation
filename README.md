@@ -1,5 +1,7 @@
 ![](https://raw.githubusercontent.com/tom-ripley/angular-app-automation/master/resources/icon-automation.png)
 
+[![Dependency Status](https://david-dm.org/tom-ripley/angular-app-automation.png)](https://david-dm.org/tom-ripley/angular-app-automation)
+
 Gulp automation suite for an angular app.
 
 This package does certainly not cover all your needs.  
