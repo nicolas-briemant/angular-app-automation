@@ -101,10 +101,10 @@ tasks|purpose
 `complexity:serve`|Serves plato report
 `coverage:report`|Generates coverage report (istanbul)
 `coverage:serve`|Serves coverage report
+`ci`|Continuous integration task used for travis & coveralls
 
 # Todo
 
-- Add continuous integration task that can be used for travis and coveralls.
 - Add images optimization
 
 # License
