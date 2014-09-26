@@ -13,4 +13,3 @@ module.exports = function(options, cb) {
     .on('end', cb || function() {})
     .on('error', cb || util.log);
 };
-

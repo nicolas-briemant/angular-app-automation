@@ -10,6 +10,7 @@ var _ = require('underscore')
   , server = require('./tasks/server')
   , complexity = require('./tasks/complexity')
   , coveralls = require('./tasks/coveralls')
+  , tag = require('./tasks/tag')
   , karma = require('karma');
 
 module.exports = function(gulp, options) {
@@ -133,6 +134,31 @@ module.exports = function(gulp, options) {
         _.extend(options.karma, karmaOptions)
       , coveralls.bind(null, {src: options.dirs.coverage + '/**/lcov.info'}, cb)
       );
+    });
+  });
+
+  gulp.task('release', ['dist:build'], function(cb) {
+    build.js(_.extend(options.test.unit, {dest: options.dirs.dist}), function(err) {
+      if (err) return error(err);
+
+      var karmaOptions = {
+        singleRun: true
+      , autoWatch: false
+      , files: [options.dirs.dist + '/*.js']
+      };
+
+      karma.server.start(_.extend(options.karma, karmaOptions), function(err) {
+        if (err) return error(err);
+
+        var version = options.version;
+        tag({src: './**/*', version: version}, function(err) {
+          if (err) return error(err);
+
+          util.log(util.colors.green('Release '+ option.version +' committed, tagged & pushed'));
+
+          cb();
+        });
+      });
     });
   });
 };

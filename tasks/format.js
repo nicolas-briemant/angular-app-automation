@@ -8,6 +8,7 @@ module.exports = function format(options) {
 
   var formattedOptions = {
     name: 'app'
+  , version: '0.0.0-noversion'
   , server: {
       port: 5000
     , lrport: 5001
@@ -43,6 +44,7 @@ module.exports = function format(options) {
 
   //- GENERAL
   if (!_.isUndefined(options.pkg) && !_.isUndefined(options.pkg.name)) formattedOptions.name = options.pkg.name;
+  if (!_.isUndefined(options.pkg) && !_.isUndefined(options.pkg.version)) formattedOptions.version = options.pkg.version;
   if (!_.isUndefined(options.name)) name = formattedOptions.options.name;
 
   //- SERVER
