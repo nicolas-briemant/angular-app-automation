@@ -54,9 +54,7 @@ module.exports = function(gulp, options) {
       , files: [options.dirs.build + '/*.js']
       };
 
-      karma.server.start(_.extend(options.karma, karmaUnitOptions));
-
-      cb();
+      karma.server.start(_.extend(options.karma, karmaUnitOptions), cb);
     });
   });
 
@@ -111,5 +109,19 @@ module.exports = function(gulp, options) {
 
       server(_.extend(options.server, {src: _.first(files)}), cb);
     });
-  })
+  });
+
+  gulp.task('ci', ['dist:build'], function(cb) {
+    build.js(_.extend(options.test.unit, {dest: options.dirs.dist}), function(err) {
+      if (err) return error(err);
+
+      var karmaUnitOptions = {
+        singleRun: true
+      , autoWatch: false
+      , files: [options.dirs.dist + '/*.js']
+      };
+
+      karma.server.start(_.extend(options.karma, karmaUnitOptions), cb);
+    });
+  });
 };

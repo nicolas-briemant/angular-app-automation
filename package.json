@@ -1,12 +1,13 @@
 {
   "name": "angular-app-automation",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Gulp automation suite for an angular app.",
   "keywords": [
     "gulp",
     "automation",
     "angular",
-    "angularjs"
+    "angularjs",
+    "boilerplate"
   ],
   "main": "automation.js",
   "licenses": [
