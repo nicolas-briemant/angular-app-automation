@@ -9,6 +9,7 @@ var _ = require('underscore')
   , build = require('./tasks/build')
   , server = require('./tasks/server')
   , complexity = require('./tasks/complexity')
+  , coveralls = require('./tasks/coveralls')
   , karma = require('karma');
 
 module.exports = function(gulp, options) {
@@ -48,13 +49,13 @@ module.exports = function(gulp, options) {
     build.js(_.extend(options.test.unit, {dest: options.dirs.build, watch: true}), function(err) {
       if (err) return error(err);
 
-      var karmaUnitOptions = {
+      var karmaOptions = {
         singleRun: false
       , autoWatch: true
       , files: [options.dirs.build + '/*.js']
       };
 
-      karma.server.start(_.extend(options.karma, karmaUnitOptions), cb);
+      karma.server.start(_.extend(options.karma, karmaOptions), cb);
     });
   });
 
@@ -91,7 +92,7 @@ module.exports = function(gulp, options) {
     ], function(err) {
       if (err) return error(err);
 
-      var karmaCoverageOptions = {
+      var karmaOptions = {
         singleRun: true
       , autoWatch: false
       , files: [options.dirs.build + '/*.js']
@@ -99,7 +100,7 @@ module.exports = function(gulp, options) {
       , coverageReporter: {type : 'html', dir : options.dirs.coverage}
       };
 
-      karma.server.start(_.extend(options.karma, karmaCoverageOptions), cb);
+      karma.server.start(_.extend(options.karma, karmaOptions), cb);
     });
   });
 
@@ -111,17 +112,27 @@ module.exports = function(gulp, options) {
     });
   });
 
-  gulp.task('ci', ['dist:build'], function(cb) {
-    build.js(_.extend(options.test.unit, {dest: options.dirs.dist}), function(err) {
+  gulp.task('ci', function(cb) {
+    async.series([
+      clean.bind(null, {src: options.dirs.dist})
+    , build.all.bind(null, {dest: options.dirs.dist, min: true, coverage: true}, options)
+    , clean.bind(null, {src: options.dirs.coverage})
+    , build.js.bind(null, _.extend(options.test.unit, {dest: options.dirs.dist}))
+    ], function(err) {
       if (err) return error(err);
 
-      var karmaUnitOptions = {
+      var karmaOptions = {
         singleRun: true
       , autoWatch: false
       , files: [options.dirs.dist + '/*.js']
+      , reporters: ['progress', 'coverage']
+      , coverageReporter: {type : 'lcov', dir : options.dirs.coverage}
       };
 
-      karma.server.start(_.extend(options.karma, karmaUnitOptions), cb);
+      karma.server.start(
+        _.extend(options.karma, karmaOptions)
+      , coveralls.bind(null, {src: options.dirs.coverage + '/**/lcov.info'}, cb)
+      );
     });
   });
 };
