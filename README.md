@@ -1,6 +1,6 @@
-![](https://raw.githubusercontent.com/tom-ripley/angular-app-automation/master/resources/icon-automation.png)
+![](https://raw.githubusercontent.com/nicolas-briemant/angular-app-automation/master/resources/icon-automation.png)
 
-[![Dependency Status](https://david-dm.org/tom-ripley/angular-app-automation.png)](https://david-dm.org/tom-ripley/angular-app-automation)
+[![Dependency Status](https://david-dm.org/nicolas-briemant/angular-app-automation.png)](https://david-dm.org/nicolas-briemant/angular-app-automation)
 
 Gulp automation suite for an angular app.
 
@@ -31,7 +31,7 @@ npm install -g gulp
 
 # Usage
 
-Take a look at [angular-app-seed](https://github.com/tom-ripley/angular-app-seed) to see how to use this package.
+Take a look at [angular-app-seed](https://github.com/nicolas-briemant/angular-app-seed) to see how to use this package.
 
 ```javascript
 // gulpfile.js
@@ -111,7 +111,7 @@ tasks|purpose
 
 The MIT License (MIT)
 
-Copyright (c) 2014 Tom Ripley
+Copyright (c) 2014 Nicolas Briemant
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
