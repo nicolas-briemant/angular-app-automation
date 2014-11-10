@@ -16,7 +16,8 @@ var gulp = require('gulp')
   , clean = require('./clean')
   , lint = require('./lint')
   , async = require('async')
-  , _ = require('underscore');
+  , _ = require('underscore')
+  , jade = require('jadeify');
 
 module.exports.all = function all(buildOptions, options, cb) {
   async.parallel([
@@ -34,6 +35,7 @@ var js = module.exports.js = function js(options, cb) {
   var bundle = browserify(_.extend(watchify.args, {entries: [options.app], extensions: ['.js'], debug: true}));
 
   if (options.coverage) bundle.transform(istanbul);
+  if (options.jade) bundle.transform(jade);
 
   if (options.watch) {
     bundle = watchify(bundle);

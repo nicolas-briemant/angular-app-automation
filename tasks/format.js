@@ -17,6 +17,7 @@ module.exports = function format(options) {
       src: './src/**/*.js'
     , app: './src/app.js'
     , lint: jsLintConfig
+    , jade: false
     }
   , css: {
       src: './src/**/*.less{,.css}'
@@ -55,6 +56,7 @@ module.exports = function format(options) {
   if (!_.isUndefined(options.jsSrc)) formattedOptions.js.src = options.jsSrc;
   if (!_.isUndefined(options.jsApp)) formattedOptions.js.app = options.jsApp;
   if (!_.isUndefined(options.jsLint)) formattedOptions.js.lint = _.extend(formattedOptions.js.lint, options.jsLint);
+  if (!_.isUndefined(options.jsJade)) formattedOptions.js.jade = options.jsJade;
 
   //- LESS & CSS
   if (!_.isUndefined(options.cssSrc)) formattedOptions.css.src = options.cssSrc;
