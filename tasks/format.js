@@ -12,6 +12,7 @@ module.exports = function format(options) {
   , server: {
       port: 5000
     , lrport: 5001
+    , credentials: undefined
     }
   , js: {
       src: './src/**/*.js'
@@ -51,6 +52,7 @@ module.exports = function format(options) {
   //- SERVER
   if (!_.isUndefined(options.port)) formattedOptions.server.port = options.port;
   if (!_.isUndefined(options.lrport)) formattedOptions.server.lrport = options.lrport;
+  if (!_.isUndefined(options.credentials)) formattedOptions.server.credentials = options.credentials; // {key: , cert:}
 
   //- JS
   if (!_.isUndefined(options.jsSrc)) formattedOptions.js.src = options.jsSrc;
