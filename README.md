@@ -62,11 +62,13 @@ lrport|livereload port, defaults to `5001`
 jsSrc|JavaScript source files, defaults to `./src/**/*.js`
 jsApp|JavaScript entry point for browserify, defaults to `./src/app.js`
 jsLint|JavaScript lint config object, defaults in `jshint.default.cfg` file
+jsUseLint|enable/disable jshint, default `true`
 jsJade|Indicates if browserify should use a (Jade transformation)[https://github.com/domenic/jadeify], default `false`
 jsCoffee|Indicates if browserify should use a (Coffee transformation)[https://github.com/substack/coffeeify], default `false`
 cssSrc|LESS & CSS source files, defaults to `./src/**/*.less{,.css}`
 cssApp|LESS entry point for LESS compiler, defaults to `./src/app.less`
 cssLint|CSS lint config object, defaults in `recess.default.cfg` file
+cssUseLint|enable/disable recess, default `true`
 htmlSrc|HTML source files, default to `./src/**/*.html`
 testSrc|JavaScript unit test source files, defaults to `./src/**/*.unit.js`
 testApp|JavaScript unit test entry point for browserify, defaults to `./src/app.unit.js`

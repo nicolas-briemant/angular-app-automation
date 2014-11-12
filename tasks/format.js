@@ -18,6 +18,7 @@ module.exports = function format(options) {
       src: './src/**/*.js'
     , app: './src/app.js'
     , lint: jsLintConfig
+    , useLint: true
     , jade: false
     , coffee: false
     }
@@ -25,6 +26,7 @@ module.exports = function format(options) {
       src: './src/**/*.less{,.css}'
     , app: './src/app.less'
     , lint: cssLintConfig
+    , useLint: true
     }
   , html: {
       src: './src/**/*.html' 
@@ -59,6 +61,7 @@ module.exports = function format(options) {
   if (!_.isUndefined(options.jsSrc)) formattedOptions.js.src = options.jsSrc;
   if (!_.isUndefined(options.jsApp)) formattedOptions.js.app = options.jsApp;
   if (!_.isUndefined(options.jsLint)) formattedOptions.js.lint = _.extend(formattedOptions.js.lint, options.jsLint);
+  if (!_.isUndefined(options.jsUseLint)) formattedOptions.js.useLint = options.jsUseLint;
   if (!_.isUndefined(options.jsJade)) formattedOptions.js.jade = options.jsJade;
   if (!_.isUndefined(options.jsCoffee)) formattedOptions.js.coffee = options.jsCoffee;
 
@@ -66,6 +69,7 @@ module.exports = function format(options) {
   if (!_.isUndefined(options.cssSrc)) formattedOptions.css.src = options.cssSrc;
   if (!_.isUndefined(options.cssApp)) formattedOptions.css.app = options.cssApp;
   if (!_.isUndefined(options.cssLint)) formattedOptions.css.lint = _.extend(formattedOptions.css.lint, options.cssLint);
+  if (!_.isUndefined(options.cssUseLint)) formattedOptions.css.useLint = options.cssUseLint;
 
   //- HTML
   if (!_.isUndefined(options.htmlSrc)) formattedOptions.html.src = options.htmlSrc;

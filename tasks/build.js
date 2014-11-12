@@ -48,7 +48,10 @@ var js = module.exports.js = function js(options, cb) {
   compile();
 
   function compile(wargs) {
-    async.series([lint.js.bind(null, options)], function(err) {
+    var processors = [];
+    if (options.useLint) processors.push(lint.js.bind(null, options));
+
+    async.series(processors, function(err) {
       if (err) return cb ? cb(err) : util.log(err);
       util.log('Browserifying ' + util.colors.blue(options.app) + ' into ' + util.colors.blue(options.dest + '/' + options.name + '.js'));
 
@@ -67,9 +70,16 @@ var css = module.exports.css = function css(options, cb) {
   options = options || {};
   if (!options.app || !options.dest || !options.name) throw new util.PluginError('BuildCSS', 'app, dest and name are required.');
 
-  async.series([lint.css.bind(null, options)], function(err) {
+  var processors = [];
+  if (options.useLint) processors.push(lint.css.bind(null, options));
+
+  async.series(processors, function(err) {
     if (err) return cb ? cb(err) : util.log(err);
     util.log('Compiling ' + util.colors.blue(options.app) + ' into ' + util.colors.blue(options.dest + '/' + options.name + '.css'));
+    if (options.useLint) {
+      util.log(util.colors.red('Warning: recess is using less ~1.3.0 version.'));
+      util.log(util.colors.red('If you are using recent directives, you may disable recess (with the cssUseLint boolean option)'));
+    }
     
     gulp.src(options.app)
       // .pipe(sourcemaps.init())
