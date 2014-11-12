@@ -10,7 +10,8 @@ Feel free to fork it and create pull request with your improvements.
 # Features
 
 - Compiles JavaScript modules into a single file ([browserify](http://browserify.org/)) with source maps
-- Compiles [Jade](http://jade-lang.com/) templates as javasscript module if needed
+- Compiles [Jade](http://jade-lang.com/) templates as javascript module if needed
+- Compiles [CoffeeScript](http://coffeescript.org/) files as javascript module if needed
 - Uses [ng-annotate](https://github.com/olov/ng-annotate) before minification ([UglifyJS2](https://github.com/mishoo/UglifyJS2))
 - Compiles [LESS](http://lesscss.org/) into a single CSS file with source maps
 - Uses [csso](https://github.com/css/csso) to minify CSS and postprocesses it with [autoprefixer](https://github.com/postcss/autoprefixer)
@@ -61,7 +62,8 @@ lrport|livereload port, defaults to `5001`
 jsSrc|JavaScript source files, defaults to `./src/**/*.js`
 jsApp|JavaScript entry point for browserify, defaults to `./src/app.js`
 jsLint|JavaScript lint config object, defaults in `jshint.default.cfg` file
-jsJade|Indicates if browserify should use a Jade transformation, default `false`
+jsJade|Indicates if browserify should use a (Jade transformation)[https://github.com/domenic/jadeify], default `false`
+jsCoffee|Indicates if browserify should use a (Coffee transformation)[https://github.com/substack/coffeeify], default `false`
 cssSrc|LESS & CSS source files, defaults to `./src/**/*.less{,.css}`
 cssApp|LESS entry point for LESS compiler, defaults to `./src/app.less`
 cssLint|CSS lint config object, defaults in `recess.default.cfg` file
