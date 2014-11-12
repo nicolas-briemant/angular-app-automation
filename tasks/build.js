@@ -17,7 +17,8 @@ var gulp = require('gulp')
   , lint = require('./lint')
   , async = require('async')
   , _ = require('underscore')
-  , jade = require('jadeify');
+  , jade = require('jadeify')
+  , coffee = require('coffeeify');
 
 module.exports.all = function all(buildOptions, options, cb) {
   async.parallel([
@@ -36,6 +37,7 @@ var js = module.exports.js = function js(options, cb) {
 
   if (options.coverage) bundle.transform(istanbul);
   if (options.jade) bundle.transform(jade);
+  if (options.coffee) bundle.transform(coffee);
 
   if (options.watch) {
     bundle = watchify(bundle);
