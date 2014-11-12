@@ -63,8 +63,8 @@ jsSrc|JavaScript source files, defaults to `./src/**/*.js`
 jsApp|JavaScript entry point for browserify, defaults to `./src/app.js`
 jsLint|JavaScript lint config object, defaults in `jshint.default.cfg` file
 jsUseLint|enable/disable jshint, default `true`
-jsJade|Indicates if browserify should use a (Jade transformation)[https://github.com/domenic/jadeify], default `false`
-jsCoffee|Indicates if browserify should use a (Coffee transformation)[https://github.com/substack/coffeeify], default `false`
+jsJade|Indicates if browserify should use a [Jade transformation](https://github.com/domenic/jadeify), default `false`
+jsCoffee|Indicates if browserify should use a [Coffee transformation](https://github.com/substack/coffeeify), default `false`
 cssSrc|LESS & CSS source files, defaults to `./src/**/*.less{,.css}`
 cssApp|LESS entry point for LESS compiler, defaults to `./src/app.less`
 cssLint|CSS lint config object, defaults in `recess.default.cfg` file
