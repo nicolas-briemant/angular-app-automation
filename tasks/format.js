@@ -8,7 +8,7 @@ module.exports = function format(options) {
 
   var formattedOptions = {
     name: 'app'
-  , version: '0.0.0-noversion'
+  , version: undefined
   , server: {
       port: 5000
     , lrport: 5001
@@ -29,7 +29,8 @@ module.exports = function format(options) {
     , useLint: true
     }
   , html: {
-      src: './src/**/*.html' 
+      app: './src/index.html'
+    , src: './src/**/*.html' 
     }
   , test: {
       unit: {
@@ -73,6 +74,7 @@ module.exports = function format(options) {
 
   //- HTML
   if (!_.isUndefined(options.htmlSrc)) formattedOptions.html.src = options.htmlSrc;
+  if (!_.isUndefined(options.htmlApp)) formattedOptions.html.app = options.htmlApp;
 
   //- TEST
   if (!_.isUndefined(options.testUnitApp)) formattedOptions.test.unit.app = options.testUnitApp;

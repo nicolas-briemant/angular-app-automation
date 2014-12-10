@@ -19,6 +19,7 @@ Feel free to fork it and create pull request with your improvements.
 - Runs unit tests using [karma](http://karma-runner.github.io/) with [jasmine](http://jasmine.github.io/)
 - Generates coverage report with [istanbul](https://github.com/gotwarlost/istanbul) and complexity/maintainability reports (history) with [plato](https://github.com/es-analysis/plato)
 - Provides a development server ([express](http://expressjs.com/)) with [livereload](http://livereload.com/) capability
+- Fingerprints assets through [lo-dash templates](https://lodash.com/docs#template)
 
 # Installation
 
@@ -50,6 +51,20 @@ automation(gulp);
 automation(gulp, {jsSrc: './src/js/**/*.js', jsApp: './src/main.js'});
 ```
 
+## Fingerprinting
+
+Simple technique (recommended by Google) to force browsers to download latest versions of assets.  
+Based on [lo-dash templates](https://lodash.com/docs#template) and use the options `version` or create a [random hash](http://stackoverflow.com/questions/9407892/how-to-generate-random-sha1-hash-to-use-as-id-in-node-js) if `version` is not provided:
+```html
+// index.html
+
+// before
+<link rel="stylesheet" type="text/css" href="/dist/app.css?<%= version %>">
+
+// after
+<link rel="stylesheet" type="text/css" href="/dist/app.css?49af3efc9ba0d83100858b883ce3001361a3244e">
+```
+
 # Configuration
 
 Here are the available options:
@@ -58,6 +73,7 @@ option|purpose
 ---|---
 name|name of the application, defaults to `app`
 port|port used by express, defaults to `5000`
+version|version used for fingerprinting
 lrport|livereload port, defaults to `5001`
 jsSrc|JavaScript source files, defaults to `./src/**/*.js`
 jsApp|JavaScript entry point for browserify, defaults to `./src/app.js`

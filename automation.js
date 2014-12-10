@@ -10,6 +10,7 @@ var _ = require('underscore')
   , server = require('./tasks/server')
   , complexity = require('./tasks/complexity')
   , coveralls = require('./tasks/coveralls')
+  , fingerprint = require('./tasks/fingerprint')
   , karma = require('karma');
 
 module.exports = function(gulp, options) {
@@ -63,6 +64,7 @@ module.exports = function(gulp, options) {
     async.series([
       clean.bind(null, {src: options.dirs.dist})
     , build.all.bind(null, {dest: options.dirs.dist, min: true}, options)
+    , fingerprint.bind(null, options)
     ], function(err) {
       if (err) return error(err);
 
