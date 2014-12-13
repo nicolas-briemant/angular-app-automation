@@ -11,6 +11,7 @@ var _ = require('underscore')
   , complexity = require('./tasks/complexity')
   , coveralls = require('./tasks/coveralls')
   , fingerprint = require('./tasks/fingerprint')
+  , size = require('./tasks/size')
   , karma = require('karma');
 
 module.exports = function(gulp, options) {
@@ -27,6 +28,8 @@ module.exports = function(gulp, options) {
     async.series({
       'clean': clean.bind(null, {src: options.dirs.build})
     , 'build': build.all.bind(null, {dest: options.dirs.build, watch: true}, options)
+    , 'size': size.bind(null, {src: options.dirs.build})
+    , 'fingerprint': fingerprint.bind(null, options)
     , 'notifier': server.bind(null, _.extend(options.server, {src: options.dirs.build}))
     }, function(err, r) {
       if (err) return error(err);

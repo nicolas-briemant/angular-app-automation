@@ -22,6 +22,10 @@ module.exports = function format(options) {
     , jade: false
     , coffee: false
     }
+  , externals: {
+      app: './src/externals.js'
+    , list: []
+    }
   , css: {
       src: './src/**/*.less{,.css}'
     , app: './src/app.less'
@@ -65,6 +69,10 @@ module.exports = function format(options) {
   if (!_.isUndefined(options.jsUseLint)) formattedOptions.js.useLint = options.jsUseLint;
   if (!_.isUndefined(options.jsJade)) formattedOptions.js.jade = options.jsJade;
   if (!_.isUndefined(options.jsCoffee)) formattedOptions.js.coffee = options.jsCoffee;
+
+  //- EXTERNALS
+  if (!_.isUndefined(options.externalsApp)) formattedOptions.externals.app = options.externalsApp;
+  if (!_.isUndefined(options.externalsList) && !_.isEmpty(options.externalsList)) formattedOptions.externals.list = options.externalsList;
 
   //- LESS & CSS
   if (!_.isUndefined(options.cssSrc)) formattedOptions.css.src = options.cssSrc;
