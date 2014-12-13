@@ -33,7 +33,7 @@ var js = module.exports.js = function js(options, cb) {
   if (!options.app || !options.dest || !options.name) throw new util.PluginError('BuildJS', 'app, dest and name are required.');
 
   // debug is for source maps
-  var bundle = browserify(_.extend(watchify.args, {entries: [options.app], extensions: ['.js'], debug: true}));
+  var bundle = browserify(_.extend(watchify.args, {entries: [options.app], extensions: ['.js'], debug: !options.min}));
 
   if (options.coverage) bundle.transform(istanbul);
   if (options.jade) bundle.transform(jade);
