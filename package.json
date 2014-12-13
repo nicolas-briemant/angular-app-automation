@@ -49,6 +49,7 @@
     "gulp-plato": "^1.0.1",
     "gulp-recess": "^1.0.1",
     "gulp-rename": "^1.2.0",
+    "gulp-size": "^1.1.0",
     "gulp-sourcemaps": "^1.1.4",
     "gulp-streamify": "0.0.5",
     "gulp-template": "^1.1.1",
