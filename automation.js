@@ -25,25 +25,35 @@ module.exports = function(gulp, options) {
   }
 
   gulp.task('dev', function(cb) {
-    async.series({
-      'clean': clean.bind(null, {src: options.dirs.build})
-    , 'build': build.all.bind(null, {dest: options.dirs.build, watch: true}, options)
-    , 'size': size.bind(null, {src: options.dirs.build})
-    , 'fingerprint': fingerprint.bind(null, options)
-    , 'notifier': server.bind(null, _.extend(options.server, {src: options.dirs.build}))
-    }, function(err, r) {
+    async.series([
+      clean.bind(null, {src: options.dirs.build})
+    , build.all.bind(null, {dest: options.dirs.build, watch: true}, options)
+    , size.bind(null, {src: options.dirs.build})
+    , fingerprint.bind(null, options)
+    ], function(err) {
       if (err) return error(err);
 
       gulp.watch(
         options.css.src
       , build.css.bind(null, _.extend(options.css, {dest: options.dirs.build, name: options.name}), null)
       );
+
       gulp.watch(
         options.html.src
       , build.html.bind(null, {src: options.html.src, dest: options.dirs.build}, null)
       );
 
-      gulp.watch(options.dirs.build + '**/*', r.notifier);
+      util.log(util.colors.green('Watching sources for updates'));
+
+      cb();
+    });
+  });
+
+  gulp.task('dev:lr', ['dev'], function(cb) {
+    server(_.extend(options.server, {src: options.dirs.build}), function(err, notifier) {
+      if (err) return error(err);
+
+      gulp.watch(options.dirs.build + '**/*', notifier);
 
       cb();
     });
