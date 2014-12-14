@@ -24,10 +24,10 @@ module.exports = function(gulp, options) {
     }
   }
 
-  gulp.task('dev', function(cb) {
+  function dev(devOptions, cb) {
     async.series([
       clean.bind(null, {src: options.dirs.build})
-    , build.all.bind(null, {dest: options.dirs.build, watch: true}, options)
+    , build.all.bind(null, _.extend({dest: options.dirs.build, watch: true}, devOptions), options)
     , size.bind(null, {src: options.dirs.build})
     , fingerprint.bind(null, options)
     ], function(err) {
@@ -43,11 +43,14 @@ module.exports = function(gulp, options) {
       , build.html.bind(null, {src: options.html.src, dest: options.dirs.build}, null)
       );
 
-      util.log(util.colors.green('Watching sources for updates'));
+      util.log(util.colors.yellow('Watching sources for updates'));
 
       cb();
     });
-  });
+  }
+
+  gulp.task('dev', function(cb) { dev({debug: false},cb); });
+  gulp.task('dev:sm', function(cb) { dev({debug: true}, cb); });
 
   gulp.task('dev:lr', ['dev'], function(cb) {
     server(_.extend(options.server, {src: options.dirs.build}), function(err, notifier) {
