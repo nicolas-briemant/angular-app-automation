@@ -103,7 +103,7 @@ cssApp|LESS entry point for LESS compiler, defaults to `./src/app.less`
 cssLint|CSS lint config object, defaults in `recess.default.cfg` file
 cssUseLint|enable/disable recess, default `true`
 externalsApp|JavaScript entry point for browserify, defaults to `./src/externals.js`
-externalsList|List of external libs, default []
+externalsList|List of external libs, default `[]`, expect `[{require: '', expose: ''}]`
 htmlSrc|HTML source files, default to `./src/**/*.html`
 testSrc|JavaScript unit test source files, defaults to `./src/**/*.unit.js`
 testApp|JavaScript unit test entry point for browserify, defaults to `./src/app.unit.js`
