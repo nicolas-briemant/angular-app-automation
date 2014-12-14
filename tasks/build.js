@@ -21,7 +21,11 @@ var gulp = require('gulp')
   , coffee = require('coffeeify');
 
 module.exports.all = function all(buildOptions, options, cb) {
-  var processors = [js.bind(this, _.extend(options.js, buildOptions, {list: options.externals.list, inAll: true}))];
+  var processors = [
+    js.bind(this, _.extend(options.js, buildOptions, {list: options.externals.list, inAll: true}))
+  , css.bind(this, _.extend(options.css, buildOptions, {inAll: true}))
+  , html.bind(this, {src: options.html.src, dest: buildOptions.dest, inAll: true})
+  ];
 
   if (!_.isEmpty(options.externals.list)) {
     processors.unshift(js.bind(this, _.extend(options.externals, buildOptions, {name: 'externals', externals: true, inAll: true})));
@@ -29,11 +33,7 @@ module.exports.all = function all(buildOptions, options, cb) {
 
   util.log('Building... (start)');
 
-  async.parallel([
-    async.series.bind(this, processors)
-  , css.bind(this, _.extend(options.css, buildOptions, {inAll: true}))
-  , html.bind(this, {src: options.html.src, dest: buildOptions.dest, inAll: true})
-  ], function(err) {
+  async.parallel(processors, function(err) {
     util.log('...Building (end)');
     cb(err);
   });
@@ -63,7 +63,7 @@ var js = module.exports.js = function js(options, cb) {
     if (options.coffee) bundle.transform(coffee);
   }
 
-  if (!options.externals && options.watch) {
+  if (options.watch) {
     bundle = watchify(bundle);
     bundle.on('update', compile);
     bundle.on('error', util.log);
