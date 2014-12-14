@@ -81,6 +81,7 @@ module.exports = function(gulp, options) {
       clean.bind(null, {src: options.dirs.dist})
     , build.all.bind(null, {dest: options.dirs.dist, min: true}, options)
     , fingerprint.bind(null, options)
+    , size.bind(null, {src: options.dirs.build})
     ], function(err) {
       if (err) return error(err);
 
