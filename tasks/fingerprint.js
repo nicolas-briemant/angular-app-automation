@@ -6,7 +6,7 @@ module.exports = function(options, cb) {
   var version = options.version;
   if (!version) version = require('crypto').randomBytes(20).toString('hex');
 
-  util.log('Fingerprinting index.html assets with ' + util.colors.blue(version));
+  util.log('Fingerprinting assets with ' + util.colors.blue(version));
 
   gulp.src(options.html.app)
     .pipe(template({version: version}))
