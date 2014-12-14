@@ -24,7 +24,7 @@ module.exports.all = function all(buildOptions, options, cb) {
   var processors = [js.bind(this, _.extend(options.js, buildOptions, {list: options.externals.list, inAll: true}))];
 
   if (!_.isEmpty(options.externals.list)) {
-    processors.unshift(js.bind(this, _.extend(options.externals, buildOptions, {name: 'externals', externals: true, inAll: true})));
+    processors.unshift(js.bind(this, _.extend(options.externals, buildOptions, {name: 'externals', externals: true, inAll: true, min: true})));
   }
 
   util.log('Building... (start)');
