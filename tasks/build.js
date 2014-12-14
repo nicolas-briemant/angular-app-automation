@@ -24,7 +24,7 @@ module.exports.all = function all(buildOptions, options, cb) {
   var processors = [js.bind(this, _.extend(options.js, buildOptions, {list: options.externals.list, inAll: true}))];
 
   if (!_.isEmpty(options.externals.list)) {
-    processors.unshift(js.bind(this, _.extend(options.externals, buildOptions, {name: 'externals', externals: true, inAll: true, min: true})));
+    processors.unshift(js.bind(this, _.extend(options.externals, buildOptions, {name: 'externals', externals: true, inAll: true})));
   }
 
   util.log('Building... (start)');
@@ -44,7 +44,7 @@ var js = module.exports.js = function js(options, cb) {
   if (!options.app || !options.dest || !options.name) throw new util.PluginError('BuildJS', 'app, dest and name are required.');
 
   // debug is for source maps
-  var bundle = browserify(_.extend(watchify.args, {entries: [options.app], extensions: ['.js'], debug: !options.min}));
+  var bundle = browserify(_.extend(watchify.args, {entries: [options.app], extensions: ['.js'], debug: !options.min && !options.externals}));
 
   if (options.externals) {
     _.each(options.list, function(external) {
@@ -78,6 +78,7 @@ var js = module.exports.js = function js(options, cb) {
     async.series(processors, function(err) {
       if (err) return cb ? cb(err) : util.log(err);
       util.log((options.inAll ? ' |-' : '')+'Browserifying ' + util.colors.blue(options.app) + ' into ' + util.colors.blue(options.dest + '/' + options.name + '.js'));
+      options.inAll = false;
 
       return bundle.bundle()
         .pipe(source(options.name + '.js'))
