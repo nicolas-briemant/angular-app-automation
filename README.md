@@ -2,7 +2,8 @@
 
 [![Dependency Status](https://david-dm.org/nicolas-briemant/angular-app-automation.png)](https://david-dm.org/nicolas-briemant/angular-app-automation)
 
-Gulp automation suite for an angular app.
+Gulp automation suite for an angular app.  
+> It also works for an app without angular.
 
 This package does certainly not cover all your needs.  
 Feel free to fork it and create pull request with your improvements.
@@ -20,6 +21,8 @@ Feel free to fork it and create pull request with your improvements.
 - Generates coverage report with [istanbul](https://github.com/gotwarlost/istanbul) and complexity/maintainability reports (history) with [plato](https://github.com/es-analysis/plato)
 - Provides a development server ([express](http://expressjs.com/)) with [livereload](http://livereload.com/) capability
 - Fingerprints assets through [lo-dash templates](https://lodash.com/docs#template)
+- Indicates size of distribution files
+- Provides a way to separate external libs from application (useful for huge project)
 
 # Installation
 
@@ -65,6 +68,20 @@ Based on [lo-dash templates](https://lodash.com/docs#template) and use the optio
 <link rel="stylesheet" type="text/css" href="/dist/app.css?49af3efc9ba0d83100858b883ce3001361a3244e">
 ```
 
+## Externals
+
+Provides a list of externals will build a browserify bundle with externals and an other one for the application.  
+Livereload is more efficient for big project.
+
+To declare an external:
+```javascript
+//in gulpfile.js
+externalsList: [
+  {require: 'path/to/lib', expose: 'whatever you want to require this lib in your app'}
+, {require: 'npm package', expose: '...'}
+]
+```
+
 # Configuration
 
 Here are the available options:
@@ -85,6 +102,8 @@ cssSrc|LESS & CSS source files, defaults to `./src/**/*.less{,.css}`
 cssApp|LESS entry point for LESS compiler, defaults to `./src/app.less`
 cssLint|CSS lint config object, defaults in `recess.default.cfg` file
 cssUseLint|enable/disable recess, default `true`
+externalsApp|JavaScript entry point for browserify, defaults to `./src/externals.js`
+externalsList|List of external libs, default []
 htmlSrc|HTML source files, default to `./src/**/*.html`
 testSrc|JavaScript unit test source files, defaults to `./src/**/*.unit.js`
 testApp|JavaScript unit test entry point for browserify, defaults to `./src/app.unit.js`
@@ -115,7 +134,9 @@ Take a look at this [article](https://docs.google.com/document/d/1XXMvReO8-Awi1E
 
 tasks|purpose
 ---|---
-`dev`|Builds application (browserify, less, lint) and serve it (express, livereload)
+`dev`|Builds application (browserify, less, lint) and watch source files
+`dev:sm`|dev task with sourcemap (sourcemaps double size of build files)
+`dev:lr`|dev task and serve it (express, livereload), sourcemap included
 `dev:unit`|Starts the dev environment with unit testing support (karma and jasmine)
 `dist:build`|Builds distribution (minification)
 `dist:serve`|Builds distribution and serve it for checking purpose
