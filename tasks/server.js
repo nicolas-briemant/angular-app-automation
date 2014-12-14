@@ -18,7 +18,7 @@ module.exports = function server(options, cb) {
 
   lr(options.credentials).listen(options.lrport, function(err) {
     if (err) return cb(err);
-    util.log(util.colors.green('Watching ' + options.src + ' on ' + options.lrport))
+    util.log(util.colors.green('Livereloading ' + options.src + ' on ' + options.lrport))
   });
 
   cb(null, notifier);
