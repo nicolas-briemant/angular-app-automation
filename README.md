@@ -70,8 +70,7 @@ Based on [lo-dash templates](https://lodash.com/docs#template) and use the optio
 
 ## Externals
 
-Provides a list of externals will build a browserify bundle with externals and an other one for the application.  
-Livereload is more efficient for big project.
+Provides a list of externals will build a browserify bundle with externals and an other one for the application.
 
 To declare an external:
 ```javascript
