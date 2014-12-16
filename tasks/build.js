@@ -102,6 +102,7 @@ var css = module.exports.css = function css(options, cb) {
     if (err) return cb ? cb(err) : util.log(err);
 
     util.log((options.inAll ? ' |-' : '')+'Compiling ' + util.colors.blue(options.app) + ' into ' + util.colors.blue(options.dest + '/' + options.name + '.css'));
+    options.inAll = false;
 
     if (options.useLint) {
       util.log(util.colors.red((options.inAll ? ' |-' : '')+'Warning: recess is using less ~1.3.0 version.'));
@@ -126,6 +127,7 @@ var html = module.exports.html = function html(options, cb) {
   if (!options.src || !options.dest) throw new util.PluginError('BuildHTML', 'src and dest are required.');
 
   util.log((options.inAll ? ' |-' : '')+'Moving ' + util.colors.blue(options.src) + ' to ' + util.colors.blue(options.dest));
+  options.inAll = false;
 
   gulp.src(options.src)
     .pipe(gulp.dest(options.dest))
