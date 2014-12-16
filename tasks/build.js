@@ -77,16 +77,17 @@ var js = module.exports.js = function js(options, cb) {
 
     async.series(processors, function(err) {
       if (err) return cb ? cb(err) : util.log(err);
+
       util.log((options.inAll ? ' |-' : '')+'Browserifying ' + util.colors.blue(options.app) + ' into ' + util.colors.blue(options.dest + '/' + options.name + '.js'));
       options.inAll = false;
 
       return bundle.bundle()
+        .on('error', function(err) { util.log((options.inAll ? ' |-' : '') + util.colors.red(err.message)); this.emit('end'); })
         .pipe(source(options.name + '.js'))
         .pipe(gulpif(options.min, streamify(ngAnnotate())))
         .pipe(gulpif(options.min, streamify(uglify())))
         .pipe(gulp.dest(options.dest))
-        .on('end', wargs ? function() {} : cb || function() {})
-        .on('error', cb || util.log);
+        .on('end', wargs ? function() {} : cb || function() {});
     });
   }
 };
@@ -113,12 +114,12 @@ var css = module.exports.css = function css(options, cb) {
       // .pipe(sourcemaps.init())
       .pipe(autoprefixer("last 2 versions", "> 1%", "ie 8"))
       .pipe(less())
+      .on('error', cb || util.log)
       .pipe(rename(options.name + '.css'))
       .pipe(gulpif(options.min, csso()))
       // .pipe(sourcemaps.write())
       .pipe(gulp.dest(options.dest))
-      .on('end', cb || function() {})
-      .on('error', cb || util.log);
+      .on('end', cb || function() {});
   });
 };
 
