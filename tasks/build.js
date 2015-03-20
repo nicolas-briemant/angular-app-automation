@@ -112,8 +112,8 @@ var css = module.exports.css = function css(options, cb) {
     
     gulp.src(options.app)
       // .pipe(sourcemaps.init())
-      .pipe(autoprefixer("last 2 versions", "> 1%", "ie 8"))
       .pipe(less())
+      .pipe(autoprefixer("last 4 versions", "> 1%", "ie 8"))
       .on('error', cb || util.log)
       .pipe(rename(options.name + '.css'))
       .pipe(gulpif(options.min, csso()))
